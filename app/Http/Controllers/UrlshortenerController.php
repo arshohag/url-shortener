@@ -4,10 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Url;
 use Illuminate\Support\Str;
+use App\Services\ScannerApi;
 use Illuminate\Http\Request;
 
 class UrlshortenerController extends Controller
 {
+    private ScannerApi $scannerApi;
+
+    public function __construct(ScannerApi $scannerApi)
+    {
+        $this->scannerApi = $scannerApi;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,14 +45,21 @@ class UrlshortenerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {        
         $hash = Str::random(6);
+        $new_url = config('app.url')."$hash";
 
         $url = new Url([
             'hash' => $hash,
             'old_url' => $request->input('url'),
-            'new_url' => env('APP_URL')."$hash"
+            'new_url' => $new_url
         ]);
+
+        $response = $this->scannerApi->postScanUrl($new_url);
+        
+        if($response['FoundViruses']) {
+            return response()->json('Malicious URL Detected!');
+        }
 
         $url->save();
 
