@@ -14,6 +14,10 @@ use App\Http\Controllers\UrlshortenerController;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::get('/admin/{any}', function () {
     return view('app');
 })->where('any', '.*');
