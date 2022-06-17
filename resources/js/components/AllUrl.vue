@@ -35,7 +35,7 @@
         },
         created() {
             this.axios
-                .get('https://url-shortener.test/api/urls/')
+                .get(process.env.MIX_APP_URL+'/api/urls/')
                 .then(response => {
                     this.urls = response.data;
                 });
@@ -43,7 +43,7 @@
         methods: {
             deleteUrl(id) { 
                 this.axios
-                    .delete(`https://url-shortener.test/api/urls/${id}`)
+                    .delete(process.env.MIX_APP_URL+`/api/urls/${id}`)
                     .then(response => {
                         let i = this.urls.map(data => data.id).indexOf(id);
                         this.urls.splice(i, 1)

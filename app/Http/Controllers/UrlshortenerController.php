@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Url;
-use Illuminate\Support\Str;
 use App\Services\ScannerApi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class UrlshortenerController extends Controller
 {
-    private ScannerApi $scannerApi;
+    private $scannerApi;
 
     public function __construct(ScannerApi $scannerApi)
     {
@@ -25,7 +26,7 @@ class UrlshortenerController extends Controller
     {
         $urls = Url::all()->toArray();
 
-        return array_reverse($urls); 
+        return array_reverse($urls);
     }
 
     /**
@@ -45,20 +46,24 @@ class UrlshortenerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
+    {
+        $this->validate($request, [
+            'url' => 'required|url|unique:urls,old_url',
+        ]);
+
         $hash = Str::random(6);
-        $new_url = config('app.url')."$hash";
+        $new_url = config('app.url') . "/$hash";
 
         $url = new Url([
             'hash' => $hash,
             'old_url' => $request->input('url'),
-            'new_url' => $new_url
+            'new_url' => $new_url,
         ]);
 
         $response = $this->scannerApi->postScanUrl($new_url);
-        
-        if($response['FoundViruses']) {
-            return response()->json('Malicious URL Detected!');
+
+        if ($response['FoundViruses']) {
+            throw ValidationException::withMessages(['scan' => 'Malicious URL Detected!']);
         }
 
         $url->save();
@@ -112,7 +117,7 @@ class UrlshortenerController extends Controller
 
         $url->delete();
 
-        return response()->json('URL Deleted Successfully.');        
+        return response()->json('URL Deleted Successfully.');
     }
 
     /**
@@ -121,14 +126,15 @@ class UrlshortenerController extends Controller
      * @param Request $request
      * @return redirect
      */
-    public function handle(Request $request){        
+    public function handle(Request $request)
+    {
         $uri = substr($_SERVER["REQUEST_URI"], 1);
 
         $url = Url::Where('hash', $uri)->get('old_url');
-        
-        if($uri =='' || $url =='' || count($url)==0){
+
+        if ($uri == '' || $url == '' || count($url) == 0) {
             return abort(403);
-        }else{
+        } else {
             return redirect($url[0]['old_url']);
         }
     }
