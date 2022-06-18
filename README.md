@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This is a URL shortener featuring a Laravel backend and a a Vue.js frontend.
+This is a URL shortener featuring a Laravel backend and a Vue.js frontend.
 
 It's main features are:
 
