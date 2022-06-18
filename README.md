@@ -70,6 +70,15 @@ npm install
 npm run dev
 ```
 
+## URL Panel
+
+- URL List - http://127.0.0.1:8000/admin/list
+- Create URL - http://127.0.0.1:8000/admin/create
+
+## 3rd Party API
+
+For scanning safe URL, [cloudmersive](https://account.cloudmersive.com/documentation?selected=%2fvirus%2fscan%2fwebsite&api=linkVirus&language=linkCurl) is used. Check their documentaion and create a free account to get an API key.
+
 ## Contributing
 
 Pull requests are welcome. Please open an issue to discuss.
