@@ -52,17 +52,17 @@ class UrlshortenerController extends Controller
         ]);
 
         $hash = Str::random(6);
-        $new_url = config('app.url') . "/$hash";
+        $old_url = $request->input('url');
 
         $url = new Url([
             'hash' => $hash,
-            'old_url' => $request->input('url'),
-            'new_url' => $new_url,
+            'old_url' => $old_url,
+            'new_url' => config('app.url') . "/$hash",
         ]);
 
-        $response = $this->scannerApi->postScanUrl($new_url);
+        $response = $this->scannerApi->postScanUrl($old_url);
 
-        if ($response['FoundViruses']) {
+        if ($response['WebsiteHttpResponseCode'] != 200) {
             throw ValidationException::withMessages(['scan' => 'Malicious URL Detected!']);
         }
 
