@@ -4,17 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Url;
 use App\Services\ScannerApi;
+use App\Services\UrlHash;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class UrlshortenerController extends Controller
 {
-    private $scannerApi;
+    private $hash, $scannerApi;
 
-    public function __construct(ScannerApi $scannerApi)
+    public function __construct(UrlHash $hash, ScannerApi $scannerApi)
     {
         $this->scannerApi = $scannerApi;
+        $this->hash = $hash;
     }
 
     /**
@@ -51,8 +52,9 @@ class UrlshortenerController extends Controller
             'url' => 'required|url|unique:urls,old_url',
         ]);
 
-        $hash = Str::random(6);
         $old_url = $request->input('url');
+
+        $hash = $this->hash->createUrlHash($old_url);
 
         $url = new Url([
             'hash' => $hash,
