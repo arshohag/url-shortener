@@ -127,6 +127,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Environment Variables  
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the "environment" your application is currently
+    | running in. This may determine how you prefer to configure various
+    | services the application utilizes. Set this in your ".env" file.
+    |
+    */
+
+    'cloudmersive_api_key' => env('CLOUDMERSIVE_API_KEY'),
+    'cloudmersive_base_url' => env('CLOUDMERSIVE_BASE_URL'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Maintenance Mode Driver
     |--------------------------------------------------------------------------
     |
