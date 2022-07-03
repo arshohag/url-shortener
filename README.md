@@ -58,13 +58,19 @@ CLOUDMERSIVE_API_KEY
 CLOUDMERSIVE_BASE_URL
 ```
 
-5. Install dependencies
+5. Run Migrations
+
+```bash
+php artisan migrate
+```
+
+6. Install dependencies
 
 ```bash
 npm install
 ```
 
-6. Compile dependencies
+7. Compile dependencies
 
 ```bash
 npm run dev
