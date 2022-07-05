@@ -54,6 +54,7 @@ class UrlHash
             return $hash;
         }
 
-        return $this->_makeHash($url, $length)
+        $url .= time() . rand(0,9999999);
+        return $this->_makeHash($url, $length);
     }
 }
