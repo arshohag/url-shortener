@@ -51,7 +51,7 @@ class UrlHash
      */
     private function _generateUniqueHash($url, $length)
     {
-        $hash = _makeHash($url, $length);
+        $hash = $this->_makeHash($url, $length);
         if($this->_isUniqueHash($hash)){
             return $hash;
         }
