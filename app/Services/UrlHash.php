@@ -21,8 +21,7 @@ class UrlHash
 
     public function createUrlHash($url, $length = 6)
     {
-        $hash = $this->_makeHash($url, $length);
-        return $this->_generateUniqueHash($hash, $url, $length);
+        return $this->_generateUniqueHash($url, $length);
     }
 
     /**
@@ -48,13 +47,14 @@ class UrlHash
     /**
      * Generate unique hash
      */
-    private function _generateUniqueHash($hash, $url, $length)
+    private function _generateUniqueHash($url, $length)
     {
+        $hash = _makeHash($url, $length);
         if($this->_isUniqueHash($hash)){
             return $hash;
         }
 
         $url .= time() . rand(0,9999999);
-        return $this->_makeHash($url, $length);
+        return $this->_generateUniqueHash($url, $length);
     }
 }
