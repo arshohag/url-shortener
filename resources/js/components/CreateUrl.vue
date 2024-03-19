@@ -26,7 +26,7 @@
         data() {
             return {
                 url: {},
-                errors: ''
+                errors: []
             }
         },
         methods: {

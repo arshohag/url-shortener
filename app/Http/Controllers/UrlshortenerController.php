@@ -10,7 +10,8 @@ use Illuminate\Validation\ValidationException;
 
 class UrlshortenerController extends Controller
 {
-    private $hash, $scannerApi;
+    protected $hash;
+    protected $scannerApi;
 
     public function __construct(UrlHash $hash, ScannerApi $scannerApi)
     {
@@ -28,16 +29,6 @@ class UrlshortenerController extends Controller
         $urls = Url::all()->toArray();
 
         return array_reverse($urls);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -71,40 +62,6 @@ class UrlshortenerController extends Controller
         $url->save();
 
         return response()->json('URL Created Successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
