@@ -24,7 +24,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "autoprefixer": "10.4.7",
+        "autoprefixer": "10.4.17",
         "vue-axios": "^3.5.0",
         "vue-router": "^3.6.0"
     }
